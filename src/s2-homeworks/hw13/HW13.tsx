@@ -55,7 +55,7 @@ const HW13 = () => {
                             setCode('400')
                             setImage(errorUnknown)
                             setText('Ты не отправил success в body вообще!')
-                            setInfo('Проверьте подключение к интернету и попробуйте ещё раз.')
+                            setInfo('ошибка 400 - обычно означает что скорее всего фронт отправил что-то не то на бэк!')
                             break
                         case 500:
                             setCode('Ошибка 500!')
@@ -66,10 +66,10 @@ const HW13 = () => {
                             )
                             break
                         default:
-                            setCode('Неизвестная ошибка!')
+                            setCode('Error!')
                             setImage(errorUnknown)
-                            setText('Произошла неизвестная ошибка!')
-                            setInfo(`Error`)
+                            setText('Network Error')
+                            setInfo(`Axios Error`)
                             break
                     }
                 }
