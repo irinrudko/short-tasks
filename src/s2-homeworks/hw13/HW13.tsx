@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import s2 from '../../s1-main/App.module.css'
 import s from './HW13.module.css'
 import SuperButton from '../hw04/common/c2-SuperButton/SuperButton'
@@ -9,16 +9,17 @@ import error500 from './images/500.svg'
 import errorUnknown from './images/error.svg'
 
 /*
-* 1 - дописать функцию send
-* 2 - дизэйблить кнопки пока идёт запрос
-* 3 - сделать стили в соответствии с дизайном
-* */
+ * 1 - дописать функцию send
+ * 2 - дизэйблить кнопки пока идёт запрос
+ * 3 - сделать стили в соответствии с дизайном
+ * */
 
 const HW13 = () => {
     const [code, setCode] = useState('')
     const [text, setText] = useState('')
     const [info, setInfo] = useState('')
     const [image, setImage] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
     const send = (x?: boolean | null) => () => {
         const url =
@@ -31,17 +32,48 @@ const HW13 = () => {
         setText('')
         setInfo('...loading')
 
+        setIsLoading(true)
+
         axios
-            .post(url, {success: x})
+            .post(url, { success: x })
             .then((res) => {
                 setCode('Код 200!')
                 setImage(success200)
-                // дописать
+                setText('...всё ок)')
+                setInfo('код 200 - обычно означает что скорее всего всё ок)')
 
+                // дописать
             })
             .catch((e) => {
-                // дописать
+                if (e.response) {
+                    const statusCode = e.response.status
+                    console.log(statusCode)
 
+                    switch (statusCode) {
+                        case 400:
+                            setCode('Ошибка сети!')
+                            setImage(errorUnknown)
+                            setText('Произошла ошибка при отправке запроса!')
+                            setInfo('Проверьте подключение к интернету и попробуйте ещё раз.')
+                            break
+                        case 500:
+                            setCode('Ошибка 500!')
+                            setImage(error500)
+                            setText('На сервере произошла ошибка!')
+                            setInfo('ошибка 500 - обычно означает внутреннюю ошибку сервера')
+                            break
+                        default:
+                            setCode('Неизвестная ошибка!')
+                            setImage(errorUnknown)
+                            setText('Произошла неизвестная ошибка!')
+                            setInfo(`Код ошибки: ${statusCode}`)
+                            break
+                    }
+                }
+
+                setIsLoading(false)
+
+                // дописать
             })
     }
 
@@ -56,7 +88,7 @@ const HW13 = () => {
                         onClick={send(true)}
                         xType={'secondary'}
                         // дописать
-
+                        disabled={isLoading}
                     >
                         Send true
                     </SuperButton>
@@ -65,7 +97,7 @@ const HW13 = () => {
                         onClick={send(false)}
                         xType={'secondary'}
                         // дописать
-
+                        disabled={isLoading}
                     >
                         Send false
                     </SuperButton>
@@ -74,7 +106,7 @@ const HW13 = () => {
                         onClick={send(undefined)}
                         xType={'secondary'}
                         // дописать
-
+                        disabled={isLoading}
                     >
                         Send undefined
                     </SuperButton>
@@ -83,7 +115,7 @@ const HW13 = () => {
                         onClick={send(null)} // имитация запроса на не корректный адрес
                         xType={'secondary'}
                         // дописать
-
+                        disabled={isLoading}
                     >
                         Send null
                     </SuperButton>
@@ -91,7 +123,7 @@ const HW13 = () => {
 
                 <div className={s.responseContainer}>
                     <div className={s.imageContainer}>
-                        {image && <img src={image} className={s.image} alt="status"/>}
+                        {image && <img src={image} className={s.image} alt="status" />}
                     </div>
 
                     <div className={s.textContainer}>
