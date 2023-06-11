@@ -60,14 +60,14 @@ const HW13 = () => {
                         case 500:
                             setCode('Ошибка 500!')
                             setImage(error500)
-                            setText('На сервере произошла ошибка!')
+                            setText('эмитация ошибки на сервере')
                             setInfo('ошибка 500 - обычно означает внутреннюю ошибку сервера')
                             break
                         default:
                             setCode('Неизвестная ошибка!')
                             setImage(errorUnknown)
                             setText('Произошла неизвестная ошибка!')
-                            setInfo(`Код ошибки: ${statusCode}`)
+                            setInfo(`Error`)
                             break
                     }
                 }
