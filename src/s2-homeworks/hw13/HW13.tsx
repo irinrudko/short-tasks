@@ -54,7 +54,7 @@ const HW13 = () => {
                         case 400:
                             setCode('400')
                             setImage(errorUnknown)
-                            setText('Произошла ошибка при отправке запроса!')
+                            setText('Ты не отправил succes в body вообще!')
                             setInfo('Проверьте подключение к интернету и попробуйте ещё раз.')
                             break
                         case 500:
