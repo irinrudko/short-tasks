@@ -64,17 +64,16 @@ const HW15 = () => {
         // делает студент
         setPage(newPage)
         setCount(newCount)
-        sendQuery({ page: newPage, count: newCount })
-        setSearchParams({ page: newPage.toString(), count: newCount.toString() })
-        //
+        sendQuery({ sort, page: newPage, count: newCount })
+        setSearchParams({ page: '${newPage}', count: '${newCount}' })
     }
 
     const onChangeSort = (newSort: string) => {
         // делает студент
         setSort(newSort)
         setPage(1) // при сортировке сбрасывать на 1 страницу
-        sendQuery({ sort: newSort, page: 1, count })
-        setSearchParams({ sort: newSort, page: '1' })
+        sendQuery({ sort: newSort, page: 1, count: count })
+        // setSearchParams({ sort: newSort, page: '1' })
     }
 
     useEffect(() => {
@@ -82,7 +81,7 @@ const HW15 = () => {
         sendQuery({ page: params.page, count: params.count })
         setPage(+params.page || 1)
         setCount(+params.count || 4)
-    }, [searchParams])
+    }, [])
 
     const mappedTechs = techs.map((t) => (
         <div key={t.id} className={s.row}>
